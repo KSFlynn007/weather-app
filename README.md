@@ -2,6 +2,9 @@
 
 Weather App is built with [Create React App](https://github.com/facebook/create-react-app).
 
+# Designed & Prototyped in Figma
+![image](https://user-images.githubusercontent.com/71335643/148299203-918cbe9f-6c47-4dc8-b849-c5f8315e9c15.png)
+
 ## Available Scripts
 
 In the project directory, you can run:
