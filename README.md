@@ -5,6 +5,9 @@ Weather App is built with [Create React App](https://github.com/facebook/create-
 ## API
 [Open Weather Map](https://rapidapi.com/community/api/open-weather-map/) was the API source used for this application. It was accessed through RapidAPI.com.
 
+## Designed & Prototyped in Figma
+![image](https://user-images.githubusercontent.com/71335643/148299203-918cbe9f-6c47-4dc8-b849-c5f8315e9c15.png)
+
 ## Available Scripts
 
 In the project directory, you can run:
