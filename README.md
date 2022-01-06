@@ -2,6 +2,9 @@
 
 Weather App is built with [Create React App](https://github.com/facebook/create-react-app).
 
+## API
+[Open Weather Map](https://rapidapi.com/community/api/open-weather-map/) was the API source used for this application. It was accessed through RapidAPI.com.
+
 ## Available Scripts
 
 In the project directory, you can run:
@@ -49,3 +52,4 @@ As a user, I want to change my location.
 
 ### User Story 3
 As a user, I want to see the projected weather for five days.
+ 

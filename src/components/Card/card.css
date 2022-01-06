@@ -1,0 +1,44 @@
+/* may combine card and previewCard.css */
+
+.card{
+    background-color: #fff;
+    max-width: 70%;
+    max-height: 50vh;
+    margin: 2em auto;
+    border-radius: 5px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border: 2px solid black;
+    text-align: center;
+}
+
+.weather-icon{
+    width: 15%;
+}
+
+.weather-info{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr;
+}
+
+.info-title {
+    font-weight: bold;
+}
+
+.weather-info > p{
+    margin: 0.5em;
+    font-size: 1.2em;
+}
+
+.seeMore-btn {
+    margin: 1em;
+    padding: 1em;
+    background-color: #7BC887;
+    font-size: 1em;
+    border-radius: 5px;
+}
+
+.seeMore-btn:hover {
+    cursor: pointer;
+}
+
