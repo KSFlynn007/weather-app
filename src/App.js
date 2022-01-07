@@ -12,7 +12,7 @@ function App() {
     return(
       <>
         <Forecast />
-        <DetailCard></DetailCard>
+        {/* <DetailCard></DetailCard> */}
       </>
     )
   } else{
