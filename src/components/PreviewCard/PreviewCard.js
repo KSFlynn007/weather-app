@@ -1,5 +1,5 @@
 import React from "react";
-import './previewCard.css';
+import '../Card/card.css';
 
 export default function PreviewCard(){
     return(
