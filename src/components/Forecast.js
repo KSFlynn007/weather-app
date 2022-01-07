@@ -1,11 +1,13 @@
+// forecast has essentiall replaced what search component was going to be by being the component that fetches the api data
+
 import axios from "axios";
 import React, { useState } from "react";
-import Conditions from "./Conditions";
+import DetailCard from "./DetailCard/DetailCard";
 
 const Forecast = () => {
 
     const [city, setCity] = useState('');
-    const [unit, setUnit] = useState('imperial');
+    // const [unit, setUnit] = useState('metric');
     const [responseObj, setResponseObj] = useState({});
     const [error, setError] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -34,7 +36,7 @@ const Forecast = () => {
             lon: '0',
             id: '2172797',
             lang: 'null',
-            units: `${unit}`,
+            units: `metric`,
             },
             headers: {
             'x-rapidapi-host': 'community-open-weather-map.p.rapidapi.com',
@@ -44,7 +46,7 @@ const Forecast = () => {
 
         axios.request(options)
             .then(function (response) {
-                console.log(response.status)
+                // console.log(response.status)
                 if(response.status !== 200) {
                     throw new Error();
                 }
@@ -63,10 +65,6 @@ const Forecast = () => {
 
     return (
         <div>
-            <h2>Find Current Weather</h2>
-            {/* <div>
-                {JSON.stringify(responseObj)}
-            </div> */}
             <form action="" onSubmit={getForecast}>
                 <input type="text"
                 placeholder="Enter City"
@@ -74,16 +72,7 @@ const Forecast = () => {
                 value={city}
                 onChange={(e) => setCity(e.target.value)} 
                 />
-                <label htmlFor="">
-                    <input type="radio"
-                    name="units"
-                    checked={unit === "imperial"}
-                    value="imperial"
-                    onChange={(e) => setUnit(e.target.value)} 
-                    />
-                    Farenheit
-                </label>
-                <label>
+                {/* <label>
                     <input
                         type="radio"
                         name="units"
@@ -93,14 +82,23 @@ const Forecast = () => {
                         />
                     Celcius
                 </label>
-
+                <label htmlFor="">
+                    <input type="radio"
+                    name="units"
+                    checked={unit === "imperial"}
+                    value="imperial"
+                    onChange={(e) => setUnit(e.target.value)} 
+                    />
+                    Farenheit
+                </label> */}
                 <button type="submit">Get Forecast</button>
 
             </form>
-            <Conditions
+            <DetailCard
                 responseObj={responseObj}
                 error={error}
-                loading={loading} />
+                loading={loading}
+            />     
         </div>
 
     )

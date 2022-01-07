@@ -17,6 +17,8 @@ body {
   padding: 1em 0;
 }
 
+
+
 .future-weather {
   display: flex;
   justify-content: center;
@@ -25,4 +27,13 @@ body {
 .future-weather>* {
   margin: 0 1em;
   padding: 1em;
+}
+
+input {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+  padding: 0.5em;
+  width: 40%;
 }
