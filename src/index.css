@@ -12,6 +12,17 @@ code {
     monospace;
 }
 
-body{
+body {
   background-color: #CDEDE7;
+  padding: 1em 0;
+}
+
+.future-weather {
+  display: flex;
+  justify-content: center;
+}
+
+.future-weather>* {
+  margin: 0 1em;
+  padding: 1em;
 }
