@@ -2,9 +2,10 @@ import React from "react";
 import './card.css';
 
 export default function Card(){
+
     return(
         <div className="card">
-            <p>Today's Date</p>
+            <p className="today-date">January 7th, 2022</p>
             <h2>Calgary, AB</h2>
             <img className="weather-icon" src="https://olc-wordpress-assets.s3.amazonaws.com/uploads/2020/05/cloud-icon-300x198.png" alt="weather-icon" />
             <div className="weather-info">
