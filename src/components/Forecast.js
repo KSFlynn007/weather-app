@@ -7,11 +7,15 @@ import DetailCard from "./DetailCard/DetailCard";
 const Forecast = () => {
 
     const [city, setCity] = useState('');
-    // const [unit, setUnit] = useState('metric');
     const [responseObj, setResponseObj] = useState({});
+    const [weatherIcon, setWeatherIcon] = useState("");
     const [error, setError] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [submitted, setSubmitted] = useState(true);
 
+    function submitCity(){
+        setSubmitted(false);
+    }
 
     function getForecast(e){
         e.preventDefault();
@@ -25,6 +29,7 @@ const Forecast = () => {
         setResponseObj({});
         setLoading(true);
 
+        // something here to account for spaces in city string "New York"
         const uriEncodedCity = encodeURIComponent(city);
 
         const options = {
@@ -53,6 +58,7 @@ const Forecast = () => {
 
                 let result = response.data;
                 // console.log(result);
+                setWeatherIcon(result.weather[0].icon);
                 setResponseObj(result);
                 setLoading(false);
             })
@@ -72,33 +78,17 @@ const Forecast = () => {
                 value={city}
                 onChange={(e) => setCity(e.target.value)} 
                 />
-                {/* <label>
-                    <input
-                        type="radio"
-                        name="units"
-                        checked={unit === "metric"}
-                        value="metric"
-                        onChange={(e) => setUnit(e.target.value)}
-                        />
-                    Celcius
-                </label>
-                <label htmlFor="">
-                    <input type="radio"
-                    name="units"
-                    checked={unit === "imperial"}
-                    value="imperial"
-                    onChange={(e) => setUnit(e.target.value)} 
-                    />
-                    Farenheit
-                </label> */}
-                <button type="submit">Get Forecast</button>
+                <button type="submit" onSubmit={submitCity}>Get Forecast</button>
 
             </form>
-            <DetailCard
-                responseObj={responseObj}
-                error={error}
-                loading={loading}
-            />     
+            {submitted && 
+                <DetailCard
+                    responseObj={responseObj}
+                    error={error}
+                    loading={loading}
+                    weatherIcon={weatherIcon}
+                />  
+            }   
         </div>
 
     )

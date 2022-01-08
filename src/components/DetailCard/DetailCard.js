@@ -26,17 +26,20 @@ function capitalize(text){
 export default function DetailCard(props) {
     let currentDate = convertDate(props.responseObj.dt);
 
+    let icon = props.weatherIcon;
+    console.log(icon);
+
     return(
         <div>
-            {props.error && <small>Please enter a valid city.</small>}
-            {props.loading && <div>Loading</div>}
+            {props.error && <p className="error-message">Please enter a valid city.</p>}
+            {props.loading && <p className="loading-message">Loading...</p>}
             
             {props.responseObj.cod === 200 ?
                 <div>
                     <div className="card card-detail">
                         <p className="today-date">{currentDate}</p>
                         <h2>{props.responseObj.name}, {props.responseObj.sys.country}</h2>
-                        <img className="weather-icon" src="https://olc-wordpress-assets.s3.amazonaws.com/uploads/2020/05/cloud-icon-300x198.png" alt="weather-icon" />
+                        <img className="weather-icon" src={`http://openweathermap.org/img/wn/${icon}@2x.png`} alt="weather-icon" />
                         <p className="icon-details">{capitalize(props.responseObj.weather[0].description)}</p>
                         <div className="weather-info">
                             <p><span className="info-title">Currently:</span> {Math.round(props.responseObj.main.temp)} &deg;C</p>

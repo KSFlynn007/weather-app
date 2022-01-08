@@ -1,5 +1,11 @@
 /* combined with Card, PreviewCard and DetailCard as they share many classes */
 
+.loading-message,
+.error-message {
+    text-align: center;
+    margin: 1em;
+}
+
 .card{
     background-color: #fff;
     max-width: 70%;
@@ -17,7 +23,9 @@
 }
 
 .weather-icon{
-    width: 15%;
+    width: 23%;
+    background: #CDEDE7;
+    border-radius: 5%;
 }
 
 .weather-info{
@@ -75,3 +83,4 @@
 .card-detail{
     max-height: 100vh;
 }
+
