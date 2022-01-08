@@ -1,3 +1,5 @@
+// maybe everything in here needs to be moved to Card.js, and have that be the main component with fields hidden, rahter than needing to duplicate most of the functions and content
+
 import React from "react";
 import '../Card/card.css';
 
@@ -25,9 +27,7 @@ function capitalize(text){
 
 export default function DetailCard(props) {
     let currentDate = convertDate(props.responseObj.dt);
-
     let icon = props.weatherIcon;
-    console.log(icon);
 
     return(
         <div>

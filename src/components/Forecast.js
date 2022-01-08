@@ -1,8 +1,8 @@
-// forecast has essentiall replaced what search component was going to be by being the component that fetches the api data
-
 import axios from "axios";
 import React, { useState } from "react";
 import DetailCard from "./DetailCard/DetailCard";
+import Card from "./Card/Card";
+import PreviewCard from "./PreviewCard/PreviewCard";
 
 const Forecast = () => {
 
@@ -11,10 +11,11 @@ const Forecast = () => {
     const [weatherIcon, setWeatherIcon] = useState("");
     const [error, setError] = useState(false);
     const [loading, setLoading] = useState(false);
-    const [submitted, setSubmitted] = useState(true);
+    const [submitted, setSubmitted] = useState(false);
 
-    function submitCity(){
-        setSubmitted(false);
+    function submitCity(e){
+        e.preventDefault()
+        setSubmitted(true);
     }
 
     function getForecast(e){
@@ -69,8 +70,10 @@ const Forecast = () => {
             });
     }
 
-    return (
+    if(true){
+        return(
         <div>
+            {/* search bar */}
             <form action="" onSubmit={getForecast}>
                 <input type="text"
                 placeholder="Enter City"
@@ -81,17 +84,42 @@ const Forecast = () => {
                 <button type="submit" onSubmit={submitCity}>Get Forecast</button>
 
             </form>
+            
+            {/* main view weather, should only show once city has been entered */}
+            {/* alternatively can just have default city load init */}
+            {/* can't leave it as this, if user doesn't enter in valid city, the errors are thrown in the child components, like DetailCard */}
+
+            {/* only load card and preview card option? and then just "hide" PreviewCard and form when clicking See More? */}
+
             {submitted && 
-                <DetailCard
+                <>
+                <Card
                     responseObj={responseObj}
                     error={error}
                     loading={loading}
                     weatherIcon={weatherIcon}
-                />  
-            }   
-        </div>
-
-    )
+                />
+                <div className='future-weather'>
+                    <PreviewCard></PreviewCard>
+                    <PreviewCard></PreviewCard>
+                    <PreviewCard></PreviewCard>
+                    <PreviewCard></PreviewCard>
+                    <PreviewCard></PreviewCard>
+                </div>
+                </>
+          }
+      </div>
+        )
+    } else {
+        return(
+            <DetailCard
+                responseObj={responseObj}
+                error={error}
+                loading={loading}
+                weatherIcon={weatherIcon}
+            />
+        )
+    }
 }
 
 export default Forecast;
