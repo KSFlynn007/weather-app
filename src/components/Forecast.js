@@ -13,10 +13,6 @@ const Forecast = () => {
     const [loading, setLoading] = useState(false);
     const [submitted, setSubmitted] = useState(false);
 
-    function submitCity(e){
-        e.preventDefault()
-        setSubmitted(true);
-    }
 
     function getForecast(e){
         e.preventDefault();
@@ -70,34 +66,32 @@ const Forecast = () => {
             });
     }
 
-    if(true){
-        return(
-        <div>
-            {/* search bar */}
-            <form action="" onSubmit={getForecast}>
-                <input type="text"
-                placeholder="Enter City"
-                maxLength="50"
-                value={city}
-                onChange={(e) => setCity(e.target.value)} 
-                />
-                <button type="submit" onSubmit={submitCity}>Get Forecast</button>
+    return(
+    <div>
+        {/* search bar */}
+        <form action="" onSubmit={getForecast}>
+            <input type="text"
+            placeholder="Enter City"
+            maxLength="50"
+            value={city}
+            onChange={(e) => setCity(e.target.value)} 
+            />
+            <button type="submit">Get Forecast</button>
+        </form>
+        {/* main view weather, should only show once city has been entered */}
+        {/* alternatively can just have default city load init */}
+        {/* can't leave it as this, if user doesn't enter in valid city, the errors are thrown in the child components, like DetailCard */}
 
-            </form>
-            
-            {/* main view weather, should only show once city has been entered */}
-            {/* alternatively can just have default city load init */}
-            {/* can't leave it as this, if user doesn't enter in valid city, the errors are thrown in the child components, like DetailCard */}
-
-            {/* only load card and preview card option? and then just "hide" PreviewCard and form when clicking See More? */}
-
-            {submitted && 
-                <>
+        {/* only load card and preview card option? and then just "hide" PreviewCard and form when clicking See More? */}
+        
+        {submitted ?
+            <>
                 <Card
                     responseObj={responseObj}
                     error={error}
                     loading={loading}
                     weatherIcon={weatherIcon}
+                    submitted={submitted}
                 />
                 <div className='future-weather'>
                     <PreviewCard></PreviewCard>
@@ -106,20 +100,19 @@ const Forecast = () => {
                     <PreviewCard></PreviewCard>
                     <PreviewCard></PreviewCard>
                 </div>
-                </>
-          }
-      </div>
-        )
-    } else {
-        return(
-            <DetailCard
-                responseObj={responseObj}
-                error={error}
-                loading={loading}
-                weatherIcon={weatherIcon}
-            />
-        )
-    }
+            </>
+        : 
+            <>
+                <DetailCard
+                    responseObj={responseObj}
+                    error={error}
+                    loading={loading}
+                    weatherIcon={weatherIcon}
+                />
+            </>
+        }
+    </div>
+    )
 }
 
 export default Forecast;

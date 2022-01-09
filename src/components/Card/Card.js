@@ -14,6 +14,8 @@ export default function Card(){
                 <p><span className="info-title">Daily High:</span> -7C</p>
                 <p><span className="info-title">Daily Low: </span> -20C</p>
             </div>
+            {/* need to pass a state back to the parent component to be checked */}
+            {/* onClick={() => setSubmitted(true)} */}
             <button className="seeMore-btn">See More</button>
         </div>
     )
