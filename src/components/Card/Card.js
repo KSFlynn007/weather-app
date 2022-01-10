@@ -26,15 +26,18 @@ function capitalize(text){
 
 export default function Card(props){
     const [submitted, setSubmitted] = useState(false);
+    const [button, setButton] = useState("See More");
 
     let currentDate = convertDate(props.responseObj.dt);
     let icon = props.weatherIcon;
 
     function handleSubmit(){
         if(!submitted){
-            setSubmitted(true)
+            setSubmitted(true);
+            setButton("Go Back");
         } else {
             setSubmitted(false);
+            setButton("See More");
         }
     }
 
@@ -52,8 +55,8 @@ export default function Card(props){
                         <p className="icon-details">{capitalize(props.responseObj.weather[0].description)}</p>
                         <div className="weather-info">
                             <p><span className="info-title">Currently:</span> {Math.round(props.responseObj.main.temp)} &deg;C</p>
-                            <p><span className="info-title">Feels Like:</span> {Math.round(props.responseObj.main.feels_like)} &deg;C</p>
                             <p><span className="info-title">Daily High:</span> {Math.round(props.responseObj.main.temp_max)} &deg;C </p>
+                            <p><span className="info-title">Feels Like:</span> {Math.round(props.responseObj.main.feels_like)} &deg;C</p>
                             <p><span className="info-title">Daily Low: </span> {Math.round(props.responseObj.main.temp_min)} &deg;C </p>
     
                             {submitted ?
@@ -70,15 +73,15 @@ export default function Card(props){
                             : null
                             }
                         </div>
-                        <button className="seeMore-btn" onClick={() => handleSubmit()}>Go Back</button>
+                        <button className="seeMore-btn" onClick={() => handleSubmit()}>{button}</button>
                     </div>
                     {!submitted ? 
                         <div className='future-weather'>
-                            <PreviewCard></PreviewCard>
-                            <PreviewCard></PreviewCard>
-                            <PreviewCard></PreviewCard>
-                            <PreviewCard></PreviewCard>
-                            <PreviewCard></PreviewCard>
+                            {/* need to pass city for param seach in new axios call to match main card */}
+                            <PreviewCard
+                            city={props.responseObj.name}
+                            country={props.responseObj.sys.country}
+                            />
                         </div>
                     : null }
                 </div>    
