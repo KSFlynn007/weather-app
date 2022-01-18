@@ -3,7 +3,7 @@
 Weather App is built with [Create React App](https://github.com/facebook/create-react-app).
 
 ## API
-[Open Weather Map](https://openweathermap.org/) was the API source used for this application. It was originally accessed through RapidAPI, but I required use of the Reverse Geolocation calls, which the RapidAPI platform did not offer. Therefor, I switched all calls to go through the main API website with their own unique key.
+[Open Weather Map](https://openweathermap.org/current) was the API source used for this application. It was originally accessed through RapidAPI, but I required use of the Reverse Geolocation calls, which the RapidAPI platform did not offer. Therefor, I switched all calls to go through the main API website with their own unique key.
 
 ## Designed & Prototyped in Figma
 ![image](https://user-images.githubusercontent.com/71335643/148299203-918cbe9f-6c47-4dc8-b849-c5f8315e9c15.png)
