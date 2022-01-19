@@ -43,7 +43,7 @@ export default function Card(props){
 
     return(
         <div>
-            {props.error && <p className="error-message">Please enter a valid city.</p>}
+            {props.error && <p className="error-message">Cannot find that city or location</p>}
             {props.loading && <p className="loading-message">Loading...</p>}
 
             {props.responseObj.cod === 200 ?
@@ -55,12 +55,14 @@ export default function Card(props){
                         <p className="icon-details">{capitalize(props.responseObj.weather[0].description)}</p>
                         <div className="weather-info">
                             <p><span className="info-title">Currently:</span> {Math.round(props.responseObj.main.temp)} &deg;C</p>
-                            <p><span className="info-title">Daily High:</span> {Math.round(props.responseObj.main.temp_max)} &deg;C </p>
+
                             <p><span className="info-title">Feels Like:</span> {Math.round(props.responseObj.main.feels_like)} &deg;C</p>
-                            <p><span className="info-title">Daily Low: </span> {Math.round(props.responseObj.main.temp_min)} &deg;C </p>
+
     
                             {submitted ?
                                 <>
+                                    <p><span className="info-title">Daily High:</span> {Math.round(props.responseObj.main.temp_max)} &deg;C </p>
+                                    <p><span className="info-title">Daily Low: </span> {Math.round(props.responseObj.main.temp_min)} &deg;C </p>
                                     <p>
                                         <img src={require("../../img/sunrise.png")} alt="sunrise-icon" className="sun-icon" />
                                         <span className="info-title">Sunrise:</span> {convertTime(props.responseObj.sys.sunrise)}

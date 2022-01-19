@@ -1,78 +1,126 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Card from "./Card/Card";
 
 const Forecast = () => {
-
     const [city, setCity] = useState('');
+    const [latitude, setLatitude] = useState(0);
+    const [longitude, setLongitude] = useState(0);
     const [responseObj, setResponseObj] = useState({});
     const [weatherIcon, setWeatherIcon] = useState("");
     const [error, setError] = useState(false);
     const [loading, setLoading] = useState(false);
 
-    function getForecast(e){
+
+    // gets lat & long on mount/load
+    useEffect(() => {
+        if('geolocation' in navigator){
+            const options = {
+                enableHighAccuracy : false, 
+                timeout: 5000,
+                maximumAge: 0
+            }
+
+            navigator.geolocation.getCurrentPosition(success, error, options);
+
+            function success(pos){
+                let lng = pos.coords.longitude;
+                let lat = pos.coords.latitude;
+
+                setLatitude(lat);
+                setLongitude(lng);
+            }
+
+            function error(err){
+                console.log(err);
+            }
+        } else {
+            console.log('Sorry, looks like your browser doesn\'t support geolocation!');
+        }
+    }, []);
+    
+
+    function geoCity () {
+        // geolocation API
+        if(latitude !== 0 && longitude !==0){
+            axios.request(`http://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${process.env.REACT_APP_WEATHER_API}&units=metric`)
+            .then((response) => {
+                if(response.status !== 200){
+                    throw new Error();
+                }
+                // console.log(response.data);
+                getForecast(response.data);
+            })
+            .catch((err) => {
+                // console.log(err.message);
+                setError(true);
+                setLoading(false);
+            })
+        } else {
+            return setError(true);
+        }
+
+        // clear state after use exists:
+        setLatitude(0);
+        setLongitude(0);
+    }
+
+    function getCity(e){
         e.preventDefault();
 
         if(city.length === 0){
             return setError(true);
         }
 
+        const uriEncodedCity = encodeURIComponent(city);
+
+        axios.request(`http://api.openweathermap.org/data/2.5/weather?q=${uriEncodedCity}&appid=${process.env.REACT_APP_WEATHER_API}&units=metric`)
+            .then((response) => {
+                if(response.status !== 200) {
+                    throw new Error();
+                }
+
+                // console.log(response.data);
+                getForecast(response.data);
+            })
+            .catch((error) => {
+                // console.error(error.message);
+                setError(true);
+                setLoading(false);
+            });
+
+        // clear state after use exists:
+        setCity("");
+    }
+
+    function getForecast(response){
         // clear state
         setError(false);
         setResponseObj({});
         setLoading(true);
 
-        // something here to account for spaces in city string "New York"
-        const uriEncodedCity = encodeURIComponent(city);
-
-        const options = {
-            method: 'GET',
-            url: `https://community-open-weather-map.p.rapidapi.com/weather`,
-            params: {
-            q: `${uriEncodedCity}`,
-            lat: '0',
-            lon: '0',
-            id: '2172797',
-            lang: 'null',
-            units: `metric`,
-            },
-            headers: {
-            'x-rapidapi-host': 'community-open-weather-map.p.rapidapi.com',
-            'x-rapidapi-key': process.env.REACT_APP_WEATHER_API
-            }
-        };
-
-        axios.request(options)
-            .then(function (response) {
-                // console.log(response.status)
-                if(response.status !== 200) {
-                    throw new Error();
-                }
-
-                let result = response.data;
-                // console.log(result);
-                setWeatherIcon(result.weather[0].icon);
-                setResponseObj(result);
-                setLoading(false);
-            })
-            .catch(function (error) {
-                // console.error(error.message);
-                setError(true);
-                setLoading(false);
-            });
+        // set states to pass to children
+        setWeatherIcon(response.weather[0].icon);
+        setResponseObj(response);
+        setLoading(false);
     }
 
     return(
     <div>
-        <form action="" onSubmit={getForecast}>
-            <input type="text"
-            placeholder="Enter City"
-            maxLength="50"
-            value={city}
-            onChange={(e) => setCity(e.target.value)} 
-            />
-            <button type="submit">Get Forecast</button>
-        </form>
+        <div className="searches">
+            <button type="submit" onClick={() => geoCity()}>Get Your Location Weather</button>
+            <p className="search-note">Note: If the location you're looking for shares a city name with another country, please specify the 2-letter country acronym at the end. Ex; London, UK vs. London, CA</p>
+            <form action="" onSubmit={getCity}>
+                <input type="text"
+                placeholder="Search city by name"
+                maxLength="50"
+                value={city}
+                onChange={(e) => setCity(e.target.value)} 
+                />
+                <button type="submit">Search Forecast</button>
+            </form>        
+
+        </div>
         <Card
             responseObj={responseObj}
             error={error}
