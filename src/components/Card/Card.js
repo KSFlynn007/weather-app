@@ -81,9 +81,9 @@ export default function Card(props){
                         <div className='future-weather'>
                             {/* need to pass city for param seach in new axios call to match main card */}
                             <PreviewCard
-                            city={props.responseObj.name}
-                            country={props.responseObj.sys.country}
-                            />
+                            lat={props.responseObj.coord.lat}
+                            lon={props.responseObj.coord.lon}
+                              />
                         </div>
                     : null }
                 </div>    
