@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Card from "./Card/Card";
 
 const Forecast = () => {
@@ -12,14 +12,42 @@ const Forecast = () => {
     const [loading, setLoading] = useState(false);
 
 
-    useEffect(() => {
-        setLatitude(51.049999);
-        setLongitude(-114.066666);
-    }, [latitude, longitude])
+    function geolocation(){
+        if('geolocation' in navigator){
+            requestlocation()
+        } else {
+            console.log('Sorry, looks like your browser doesn\'t support geolocation!');
+        }
+    }
+
+    function requestlocation(){
+        const options = {
+            enableHighAccuracy : false, 
+            timeout: 5000,
+            maximumAge: 0
+        }
+
+        navigator.geolocation.getCurrentPosition(success, error, options);
+
+        function success(pos){
+            let lng = pos.coords.longitude;
+            let lat = pos.coords.latitude;
+
+            console.log(`Your location is ${lng} by ${lat}`);
+
+            setLatitude(lat);
+            setLongitude(lng);
+        }
+
+        function error(err){
+            console.log(err);
+        }
+    }
 
 
     function geoCity () {
         // geolocation API
+        geolocation();
 
         if(latitude !== 0 && longitude !==0){
             axios.request(`http://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${process.env.REACT_APP_WEATHER_API}&units=metric`)
