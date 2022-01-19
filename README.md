@@ -50,9 +50,36 @@ You don't have to ever use `eject`. The curated feature set is suitable for smal
 ### User Story 1
 As a user, I want to look at the current weather for my current location.
 
+```
+Given that the user has loaded the application
+When the user clicks on the "Get Your Location Weather" button
+And they have approved the geolocation in their browser popup
+Then the results with render with their current location
+```
+
 ### User Story 2
 As a user, I want to change my location.
+```
+Given the user has loaded the application
+When the user types a city name into the input field and submits
+Then the results will populate with that city
+```
+
+As a user, I want to specify the country the city I'm searching is in.
+```
+Given the user has loaded the application
+When the user specifies the city name, followed by a comma and the 2-letter acyonym for the country (ex; London, CA)
+Then the correct city will populate.
+```
 
 ### User Story 3
+As a user, I want to see more/less details about the weather.
+```
+Given the user has already loaded a city
+When they click "See More" or "See Less"
+Then the card will toggle between standard view and a view with more details.
+```
+
+### User Story 4
 As a user, I want to see the projected weather for five days.
  
