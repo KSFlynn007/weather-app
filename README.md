@@ -52,8 +52,8 @@ As a user, I want to look at the current weather for my current location.
 
 ```
 Given that the user has loaded the application
+And they have allowed the application to use the browser's geolocation
 When the user clicks on the "Get Your Location Weather" button
-And they have approved the geolocation in their browser popup
 Then the results with render with their current location
 ```
 
