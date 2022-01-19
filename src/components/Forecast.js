@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Card from "./Card/Card";
 
 const Forecast = () => {
@@ -12,45 +12,36 @@ const Forecast = () => {
     const [loading, setLoading] = useState(false);
 
 
-    // will still need a useEffect on geolocation perhaps? otherwise getting the double check issue with find city
-
-    function geolocation(){
+    // gets lat & long on mount/load
+    useEffect(() => {
         if('geolocation' in navigator){
-            requestlocation()
+            const options = {
+                enableHighAccuracy : false, 
+                timeout: 5000,
+                maximumAge: 0
+            }
+
+            navigator.geolocation.getCurrentPosition(success, error, options);
+
+            function success(pos){
+                let lng = pos.coords.longitude;
+                let lat = pos.coords.latitude;
+
+                setLatitude(lat);
+                setLongitude(lng);
+            }
+
+            function error(err){
+                console.log(err);
+            }
         } else {
             console.log('Sorry, looks like your browser doesn\'t support geolocation!');
         }
-    }
-
-    function requestlocation(){
-        const options = {
-            enableHighAccuracy : false, 
-            timeout: 5000,
-            maximumAge: 0
-        }
-
-        navigator.geolocation.getCurrentPosition(success, error, options);
-
-        function success(pos){
-            let lng = pos.coords.longitude;
-            let lat = pos.coords.latitude;
-
-            console.log(`Your location is ${lng} by ${lat}`);
-
-            setLatitude(lat);
-            setLongitude(lng);
-        }
-
-        function error(err){
-            console.log(err);
-        }
-    }
-
+    }, []);
+    
 
     function geoCity () {
         // geolocation API
-        geolocation();
-
         if(latitude !== 0 && longitude !==0){
             axios.request(`http://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${process.env.REACT_APP_WEATHER_API}&units=metric`)
             .then((response) => {
@@ -81,7 +72,6 @@ const Forecast = () => {
             return setError(true);
         }
 
-        // not allowing spaces in name?
         const uriEncodedCity = encodeURIComponent(city);
 
         axios.request(`http://api.openweathermap.org/data/2.5/weather?q=${uriEncodedCity}&appid=${process.env.REACT_APP_WEATHER_API}&units=metric`)
@@ -104,9 +94,6 @@ const Forecast = () => {
     }
 
     function getForecast(response){
-        // if geolocation pressed, get response from geoCity()
-        // if get Forecast with input pressed, get response from new function();
-
         // clear state
         setError(false);
         setResponseObj({});
