@@ -12,6 +12,8 @@ const Forecast = () => {
     const [loading, setLoading] = useState(false);
 
 
+    // will still need a useEffect on geolocation perhaps? otherwise getting the double check issue with find city
+
     function geolocation(){
         if('geolocation' in navigator){
             requestlocation()
