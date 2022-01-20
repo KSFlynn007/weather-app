@@ -13,8 +13,6 @@ import { useState } from "react/cjs/react.development";
 // }
 
 export default function PreviewCard(props){
-
-
     // use effect to make sure we get futureObj immediately?
     // should include all calcs for dates, img and weather avg?
     
