@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import './card.css';
 import PreviewCard from "../PreviewCard/PreviewCard";
+import axios from "axios";
 
 function convertTime(timestamp){
     let unix_timestamp = timestamp
@@ -25,8 +26,12 @@ function capitalize(text){
 }
 
 export default function Card(props){
+    const lat = props.latitude;
+    const lon = props.longitude;
+
     const [submitted, setSubmitted] = useState(false);
     const [button, setButton] = useState("See More");
+    const [futureObj, setFutureObj] = useState({});
 
     let currentDate = convertDate(props.responseObj.dt);
     let icon = props.weatherIcon;
@@ -39,6 +44,24 @@ export default function Card(props){
             setSubmitted(false);
             setButton("See More");
         }
+    }
+
+
+    // how can I call this?
+    function futureForecast(e){
+        e.preventDefault(e);
+
+        axios.request(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=curreny,minutely,hourly,alerts&appid=${process.env.REACT_APP_WEATHER_API}&units=metric`)
+            .then((response) => {
+                if(response.status !== 200) {
+                    throw new Error();
+                }
+                console.log(response);
+                setFutureObj(response);
+            })
+            .catch((error) => {
+                // console.error(error.message);
+            });
     }
 
     return(
