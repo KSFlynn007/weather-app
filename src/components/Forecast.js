@@ -60,7 +60,6 @@ const Forecast = () => {
             return setError(true);
         }
 
-        // clear state after use exists:
         setLatitude(0);
         setLongitude(0);
     }
@@ -80,8 +79,9 @@ const Forecast = () => {
                     throw new Error();
                 }
 
-                // console.log(response.data);
                 getForecast(response.data);
+                setLatitude(response.data.coord.lat);
+                setLongitude(response.data.coord.lon);
             })
             .catch((error) => {
                 // console.error(error.message);
@@ -126,6 +126,8 @@ const Forecast = () => {
             error={error}
             loading={loading}
             weatherIcon={weatherIcon}
+            latitude={latitude}
+            longitude={longitude}
         />       
     </div>
     )
