@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import './card.css';
 import PreviewCard from "../PreviewCard/PreviewCard";
 import axios from "axios";
@@ -26,12 +26,77 @@ function capitalize(text){
 }
 
 export default function Card(props){
-    const lat = props.latitude;
-    const lon = props.longitude;
+    // const lat = props.latitude;
+    // const lon = props.longitude;
+
 
     const [submitted, setSubmitted] = useState(false);
     const [button, setButton] = useState("See More");
     const [futureObj, setFutureObj] = useState({});
+
+    // useEffect(() => {
+    //     axios.request(`https://api.openweathermap.org/data/2.5/onecall?lat=${props.geoLat}&lon=${props.geoLng}&exclude=curreny,minutely,hourly,alerts&appid=${process.env.REACT_APP_WEATHER_API}&units=metric`)
+    //         .then((response) => {
+    //             if(response.status !== 200) {
+    //                 throw new Error();
+    //             }
+    //             // console.log(response.data);
+    //             setFutureObj(response.data);
+    //         })
+    //         .catch((error) => {
+    //             // console.error(error.message);
+    //         });
+    // }, [futureObj, lat, lon, props.geoLat, props.geoLng]);
+
+    // ex of one mocked day
+    const mockedFuture = {
+        "lat": 33.44,
+        "lon": -94.04,
+        "timezone": "America/Chicago",
+        "timezone_offset": -21600, 
+        "daily": [
+            {
+            "dt": 1618308000,
+            "sunrise": 1618282134,
+            "sunset": 1618333901,
+            "moonrise": 1618284960,
+            "moonset": 1618339740,
+            "moon_phase": 0.04,
+            "temp": {
+                "day": 279.79,
+                "min": 275.09,
+                "max": 284.07,
+                "night": 275.09,
+                "eve": 279.21,
+                "morn": 278.49
+            },
+            "feels_like": {
+                "day": 277.59,
+                "night": 276.27,
+                "eve": 276.49,
+                "morn": 276.27
+            },
+            "pressure": 1020,
+            "humidity": 81,
+            "dew_point": 276.77,
+            "wind_speed": 3.06,
+            "wind_deg": 294,
+            "weather": [
+                {
+                "id": 500,
+                "main": "Rain",
+                "description": "light rain",
+                "icon": "10d"
+                }
+            ],   
+        "clouds": 56,
+        "pop": 0.2,
+        "rain": 0.62,
+        "uvi": 1.93
+        }
+        ]  
+    }
+    
 
     let currentDate = convertDate(props.responseObj.dt);
     let icon = props.weatherIcon;
@@ -46,27 +111,9 @@ export default function Card(props){
         }
     }
 
-
-    // how can I call this?
-    function futureForecast(e){
-        e.preventDefault(e);
-
-        axios.request(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=curreny,minutely,hourly,alerts&appid=${process.env.REACT_APP_WEATHER_API}&units=metric`)
-            .then((response) => {
-                if(response.status !== 200) {
-                    throw new Error();
-                }
-                console.log(response);
-                setFutureObj(response);
-            })
-            .catch((error) => {
-                // console.error(error.message);
-            });
-    }
-
     return(
         <div>
-            {props.error && <p className="error-message">Cannot find that city or location</p>}
+            {props.error && <p className="error-message">Cannot find that location</p>}
             {props.loading && <p className="loading-message">Loading...</p>}
 
             {props.responseObj.cod === 200 ?
@@ -104,8 +151,7 @@ export default function Card(props){
                         <div className='future-weather'>
                             {/* need to pass city for param seach in new axios call to match main card */}
                             <PreviewCard
-                            lat={props.responseObj.coord.lat}
-                            lon={props.responseObj.coord.lon}
+                            futureObj={futureObj}
                               />
                         </div>
                     : null }
