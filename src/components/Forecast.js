@@ -2,7 +2,10 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import Card from "./Card/Card";
 
-const Forecast = () => {
+const Forecast = (props) => {
+    const geoLat = props.lat;
+    const geoLng = props.lng;
+
     const [city, setCity] = useState('');
     const [latitude, setLatitude] = useState(0);
     const [longitude, setLongitude] = useState(0);
@@ -11,44 +14,14 @@ const Forecast = () => {
     const [error, setError] = useState(false);
     const [loading, setLoading] = useState(false);
 
-
-    // gets lat & long on mount/load
     useEffect(() => {
-        if('geolocation' in navigator){
-            const options = {
-                enableHighAccuracy : false, 
-                timeout: 5000,
-                maximumAge: 0
-            }
-
-            navigator.geolocation.getCurrentPosition(success, error, options);
-
-            function success(pos){
-                let lng = pos.coords.longitude;
-                let lat = pos.coords.latitude;
-
-                setLatitude(lat);
-                setLongitude(lng);
-            }
-
-            function error(err){
-                console.log(err);
-            }
-        } else {
-            console.log('Sorry, looks like your browser doesn\'t support geolocation!');
-        }
-    }, []);
-    
-
-    function geoCity () {
-        // geolocation API
-        if(latitude !== 0 && longitude !==0){
-            axios.request(`http://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${process.env.REACT_APP_WEATHER_API}&units=metric`)
+        if(geoLat !== 0 && geoLng !==0){
+            axios.request(`http://api.openweathermap.org/data/2.5/weather?lat=${geoLat}&lon=${geoLng}&appid=${process.env.REACT_APP_WEATHER_API}&units=metric`)
             .then((response) => {
                 if(response.status !== 200){
                     throw new Error();
                 }
-                // console.log(response.data);
+                console.log(response.data);
                 getForecast(response.data);
             })
             .catch((err) => {
@@ -59,10 +32,8 @@ const Forecast = () => {
         } else {
             return setError(true);
         }
-
-        setLatitude(0);
-        setLongitude(0);
-    }
+    }, [geoLat, geoLng]);
+    
 
     function getCity(e){
         e.preventDefault();
@@ -104,12 +75,11 @@ const Forecast = () => {
         setResponseObj(response);
         setLoading(false);
     }
+    
 
     return(
     <div>
         <div className="searches">
-            <button type="submit" onClick={() => geoCity()}>Get Your Location Weather</button>
-            <p className="search-note">Note: If the location you're looking for shares a city name with another country, please specify the 2-letter country acronym at the end. Ex; London, UK vs. London, CA</p>
             <form action="" onSubmit={getCity}>
                 <input type="text"
                 placeholder="Search city by name"
@@ -119,7 +89,7 @@ const Forecast = () => {
                 />
                 <button type="submit">Search Forecast</button>
             </form>        
-
+            <p className="search-note">Note: If the location you're looking for shares a city name with another country, please specify the 2-letter country acronym at the end. Ex; London, UK vs. London, CA</p>
         </div>
         <Card
             responseObj={responseObj}
@@ -128,6 +98,8 @@ const Forecast = () => {
             weatherIcon={weatherIcon}
             latitude={latitude}
             longitude={longitude}
+            geoLat={geoLat}
+            geoLng={geoLng}
         />       
     </div>
     )
