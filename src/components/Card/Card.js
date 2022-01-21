@@ -26,16 +26,14 @@ function capitalize(text){
 }
 
 export default function Card(props){
-    // const lat = props.latitude;
-    // const lon = props.longitude;
-
-
     const [submitted, setSubmitted] = useState(false);
     const [button, setButton] = useState("See More");
     const [futureObj, setFutureObj] = useState({});
 
     // useEffect(() => {
-    //     axios.request(`https://api.openweathermap.org/data/2.5/onecall?lat=${props.geoLat}&lon=${props.geoLng}&exclude=curreny,minutely,hourly,alerts&appid=${process.env.REACT_APP_WEATHER_API}&units=metric`)
+    //     if(props.latitude && props.longitude !== 0){
+    //         // make call with geoLat and geoLng as it is the default load behavrior
+    //         axios.request(`https://api.openweathermap.org/data/2.5/onecall?lat=${props.geoLat}&lon=${props.geoLng}&exclude=curreny,minutely,hourly,alerts&appid=${process.env.REACT_APP_WEATHER_API}&units=metric`)
     //         .then((response) => {
     //             if(response.status !== 200) {
     //                 throw new Error();
@@ -46,58 +44,22 @@ export default function Card(props){
     //         .catch((error) => {
     //             // console.error(error.message);
     //         });
-    // }, [futureObj, lat, lon, props.geoLat, props.geoLng]);
-
-    // ex of one mocked day
-    const mockedFuture = {
-        "lat": 33.44,
-        "lon": -94.04,
-        "timezone": "America/Chicago",
-        "timezone_offset": -21600, 
-        "daily": [
-            {
-            "dt": 1618308000,
-            "sunrise": 1618282134,
-            "sunset": 1618333901,
-            "moonrise": 1618284960,
-            "moonset": 1618339740,
-            "moon_phase": 0.04,
-            "temp": {
-                "day": 279.79,
-                "min": 275.09,
-                "max": 284.07,
-                "night": 275.09,
-                "eve": 279.21,
-                "morn": 278.49
-            },
-            "feels_like": {
-                "day": 277.59,
-                "night": 276.27,
-                "eve": 276.49,
-                "morn": 276.27
-            },
-            "pressure": 1020,
-            "humidity": 81,
-            "dew_point": 276.77,
-            "wind_speed": 3.06,
-            "wind_deg": 294,
-            "weather": [
-                {
-                "id": 500,
-                "main": "Rain",
-                "description": "light rain",
-                "icon": "10d"
-                }
-            ],   
-        "clouds": 56,
-        "pop": 0.2,
-        "rain": 0.62,
-        "uvi": 1.93
-        }
-        ]  
-    }
+    //     } else {
+    //         // make API call with props.latitude and props.longitude for searched city
+    //         axios.request(`https://api.openweathermap.org/data/2.5/onecall?lat=${props.latitude}&lon=${props.longitude}&exclude=curreny,minutely,hourly,alerts&appid=${process.env.REACT_APP_WEATHER_API}&units=metric`)
+    //         .then((response) => {
+    //             if(response.status !== 200) {
+    //                 throw new Error();
+    //             }
+    //             // console.log(response.data);
+    //             setFutureObj(response.data);
+    //         })
+    //         .catch((error) => {
+    //             // console.error(error.message);
+    //         });
+    //     }
+    // }, [futureObj, props.geoLat, props.geoLng, props.latitude, props.longitude]);
     
-
     let currentDate = convertDate(props.responseObj.dt);
     let icon = props.weatherIcon;
 
