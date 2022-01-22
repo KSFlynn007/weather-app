@@ -38,7 +38,7 @@ export default function Card(props){
     //             if(response.status !== 200) {
     //                 throw new Error();
     //             }
-    //             // console.log(response.data);
+    //             console.log(response.data);
     //             setFutureObj(response.data);
     //         })
     //         .catch((error) => {
@@ -59,7 +59,7 @@ export default function Card(props){
     //         });
     //     }
     // }, [futureObj, props.geoLat, props.geoLng, props.latitude, props.longitude]);
-    
+
     let currentDate = convertDate(props.responseObj.dt);
     let icon = props.weatherIcon;
 
@@ -110,12 +110,12 @@ export default function Card(props){
                         <button className="seeMore-btn" onClick={() => handleSubmit()}>{button}</button>
                     </div>
                     {!submitted ? 
-                        <div className='future-weather'>
+                        <>
                             {/* need to pass city for param seach in new axios call to match main card */}
                             <PreviewCard
                             futureObj={futureObj}
                               />
-                        </div>
+                        </>
                     : null }
                 </div>    
             : null

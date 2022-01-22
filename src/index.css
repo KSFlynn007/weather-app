@@ -5,27 +5,14 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
-}
-
-body {
   background-color: #CDEDE7;
   padding: 1em 0;
   text-align: center;
 }
 
-.future-weather {
-  display: flex;
-  justify-content: center;
-}
-
-.future-weather>* {
-  margin: 0 1em;
-  padding: 1em;
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
 }
 
 .searches{

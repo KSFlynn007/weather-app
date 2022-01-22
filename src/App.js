@@ -34,7 +34,8 @@ function App() {
   return(
     <Forecast
       lat={latitude}
-      lng={longitude}/>
+      lng={longitude}
+    />
   )
 }
 

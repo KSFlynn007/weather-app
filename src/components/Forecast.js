@@ -21,7 +21,7 @@ const Forecast = (props) => {
                 if(response.status !== 200){
                     throw new Error();
                 }
-                console.log(response.data);
+                // console.log(response.data);
                 getForecast(response.data);
             })
             .catch((err) => {
